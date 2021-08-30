@@ -67,7 +67,7 @@ namespace Simple.Hateoas.Sample.Controllers
 
         [HttpPut("{id}", Name = CustomersRouterNames.EditCustomer)]
         [ProducesResponseType(typeof(CustomerOutputDto), (int)HttpStatusCode.Created)]
-        public IActionResult Post(int id, CustomerInputDto dto)
+        public IActionResult Put(int id, CustomerInputDto dto)
         {
             var index = _customers.FindIndex(_ => _.Id == id);
 
@@ -77,6 +77,14 @@ namespace Simple.Hateoas.Sample.Controllers
             _customers[index].Name = dto.Name;
 
             return Ok(_hateoas.Create(_customers[index]));
+        }
+
+        [HttpDelete("{id}", Name = CustomersRouterNames.DeleteCustomer)]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        public IActionResult Delete(int id)
+        {
+            _customers.RemoveAll(_ => _.Id == id);
+            return Ok();
         }
     }
 }

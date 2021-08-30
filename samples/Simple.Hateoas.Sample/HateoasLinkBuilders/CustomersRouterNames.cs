@@ -6,5 +6,6 @@
         public const string GetCustomer = "get-customer";
         public const string CreateCustomer = "create-customer";
         public const string EditCustomer = "edit-customer";
+        public const string DeleteCustomer = "delete-customer";
     }
 }

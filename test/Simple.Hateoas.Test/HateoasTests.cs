@@ -82,6 +82,29 @@ namespace Simple.Hateoas.Tests
             // Assert
             Assert.True(error);
         }
+
+        [Fact(DisplayName = "Should create links of IHateoasLinkBuilder with dependecy injection")]
+        [Trait("Public", "Hateoas Tests")]
+        public void Hateoas_CreateHateoasResult_ShouldCreateLinksWithDI()
+        {
+            // Arrange
+            _mocker.GetMock<IHateoasBuilderContext>()
+                .Setup(_ => _.GetHateoasLinkBuilderType(It.IsAny<Type>()))
+                .Returns(typeof(DependencyInjectionHateoasLinkBuilder));
+
+            _mocker.GetMock<IServiceProvider>()
+                .Setup(_ => _.GetService(typeof(IServiceRouteMock)))
+                .Returns(new ServiceRouteMock());
+
+            var hateoas = _mocker.CreateInstance<Hateoas>();
+
+            // Act
+            var hateoasResult = hateoas.Create(new CustomerMockDto(2));
+
+            // Assert
+            Assert.NotNull(hateoasResult);
+            Assert.NotEmpty(hateoasResult.Links);
+        }
     }
 
     #region Mock Data
@@ -108,6 +131,33 @@ namespace Simple.Hateoas.Tests
                 .AddLink(RouteName2, HttpMethod.Patch)
                 .AddLink(RouteName3, HttpMethod.Delete, _ => _.Id == 2);
 
+            return hateoasResult;
+        }
+    }
+
+
+    public interface IServiceRouteMock
+    {
+        string GetRouteName();
+    }
+
+    public class ServiceRouteMock : IServiceRouteMock
+    {
+        public string GetRouteName() => "anything_route_name";
+    }
+
+    public class DependencyInjectionHateoasLinkBuilder : IHateoasLinkBuilder<CustomerMockDto>
+    {
+        private readonly IServiceRouteMock _serviceMock;
+
+        public DependencyInjectionHateoasLinkBuilder(IServiceRouteMock serviceMock)
+        {
+            _serviceMock = serviceMock;
+        }
+
+        public HateoasResult<CustomerMockDto> Build(HateoasResult<CustomerMockDto> hateoasResult)
+        {
+            hateoasResult.AddLink(_serviceMock.GetRouteName(), HttpMethod.Delete);
             return hateoasResult;
         }
     }

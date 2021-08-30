@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Simple.Hateoas.Sample.Services;
 
 namespace Simple.Hateoas.Sample
 {
@@ -28,6 +29,8 @@ namespace Simple.Hateoas.Sample
             services.AddRouting(c => c.LowercaseUrls = true);
 
             services.AddSimpleHateoas();
+
+            services.AddScoped<IPermissionServiceMock, PermissionServiceMock>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
