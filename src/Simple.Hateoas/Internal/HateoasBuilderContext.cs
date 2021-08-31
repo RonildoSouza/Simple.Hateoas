@@ -30,23 +30,17 @@ namespace Simple.Hateoas.Internal
             if (assembly == null)
                 throw new ArgumentNullException(nameof(assembly));
 
-            var hateoasLinkBuilders = assembly
-                .GetTypes()
-                .Where(t => t.GetInterfaces().Any(i => IsHateoasLinkBuilder(i)))
-                .ToList();
+            var hateoasLinkBuilders = assembly.GetTypes()
+                .Where(t => t.GetInterfaces().Any(i => IsHateoasLinkBuilder(i)));
 
             foreach (var builder in hateoasLinkBuilders)
             {
                 var interfaceType = builder.GetInterfaces().Single(i => IsHateoasLinkBuilder(i));
-
-                if (!_hateoasLinkBuilder.ContainsKey(interfaceType))
-                    _hateoasLinkBuilder.Add(interfaceType, builder);
+                _hateoasLinkBuilder.TryAdd(interfaceType, builder);
             }
-        }
 
-        private bool IsHateoasLinkBuilder(Type type)
-        {
-            return type.IsInterface && type.Name.Contains(typeof(IHateoasLinkBuilder<>).Name);
+            static bool IsHateoasLinkBuilder(Type type)
+                => type.IsInterface && type.Name.Contains(typeof(IHateoasLinkBuilder<>).Name);
         }
     }
 }

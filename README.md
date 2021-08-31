@@ -1,1 +1,2 @@
 # Simple.Hateoas
+[![Build and Tests](https://github.com/RonildoSouza/Simple.Hateoas/actions/workflows/dotnet.yml/badge.svg)](https://github.com/RonildoSouza/Simple.Hateoas/actions/workflows/dotnet.yml)

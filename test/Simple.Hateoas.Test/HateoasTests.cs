@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
+using static Simple.Hateoas.Tests.IServiceRouteMock;
 
 namespace Simple.Hateoas.Tests
 {
@@ -104,6 +105,7 @@ namespace Simple.Hateoas.Tests
             // Assert
             Assert.NotNull(hateoasResult);
             Assert.NotEmpty(hateoasResult.Links);
+            Assert.Contains("anything_route_name", hateoasResult.Links.Select(_ => _.Rel));
         }
     }
 
@@ -139,11 +141,11 @@ namespace Simple.Hateoas.Tests
     public interface IServiceRouteMock
     {
         string GetRouteName();
-    }
 
-    public class ServiceRouteMock : IServiceRouteMock
-    {
-        public string GetRouteName() => "anything_route_name";
+        public class ServiceRouteMock : IServiceRouteMock
+        {
+            public string GetRouteName() => "anything_route_name";
+        }
     }
 
     public class DependencyInjectionHateoasLinkBuilder : IHateoasLinkBuilder<CustomerMockDto>

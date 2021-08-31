@@ -25,7 +25,6 @@ namespace Simple.Hateoas
                 throw new ArgumentNullException(nameof(data));
 
             var hateoasLinkBuilderType = _hateoasBuilderContext.GetHateoasLinkBuilderType(typeof(IHateoasLinkBuilder<TData>));
-
             var hateoasLinkBuilder = CreateInstanceHateoasLinkBuilder<TData>(hateoasLinkBuilderType);
             var hateoasResult = Activator.CreateInstance(typeof(HateoasResult<TData>), _urlHelper, data) as HateoasResult<TData>;
 
@@ -43,8 +42,8 @@ namespace Simple.Hateoas
 
             if ((constructors?.Any() ?? false) && (parameters?.Any() ?? false))
             {
-                var injections = parameters.Select(_ => _serviceProvider.GetService(_.ParameterType));
-                return Activator.CreateInstance(hateoasLinkBuilderType, injections.ToArray()) as IHateoasLinkBuilder<TData>;
+                var objectsToInject = parameters.Select(_ => _serviceProvider.GetService(_.ParameterType)).ToArray();
+                return Activator.CreateInstance(hateoasLinkBuilderType, objectsToInject) as IHateoasLinkBuilder<TData>;
             }
 
             return Activator.CreateInstance(hateoasLinkBuilderType) as IHateoasLinkBuilder<TData>;

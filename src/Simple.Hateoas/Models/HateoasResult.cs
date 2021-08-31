@@ -51,41 +51,4 @@ namespace Simple.Hateoas.Models
             _links.Clear();
         }
     }
-
-    //public class HateoasPagedResult<TData, TResult> : HateoasResult<TData>
-    //    where TData : PagedResult<TResult>
-    //    where TResult : class
-    //{
-    //    public HateoasPagedResult(IUrlHelper urlHelper, TData data) : base(urlHelper, data)
-    //    {
-    //        CurrentPage = data?.CurrentPage ?? 0;
-    //        PageCount = data?.PageCount ?? 0;
-    //        PageSize = data?.PageSize ?? 0;
-    //        RowCount = data?.RowCount ?? 0;
-    //    }
-
-    //    public int CurrentPage { get; }
-    //    public int PageCount { get; }
-    //    public int PageSize { get; }
-    //    public int RowCount { get; }
-    //}
-
-    //public class PagedResult<TResult> where TResult : class
-    //{
-    //    public int CurrentPage { get; set; }
-    //    public int PageCount { get; set; }
-    //    public int PageSize { get; set; }
-    //    public int RowCount { get; set; }
-    //    public int FirstRowOnPage => (CurrentPage - 1) * PageSize + 1;
-    //    public int LastRowOnPage => Math.Min(CurrentPage * PageSize, RowCount);
-    //}
-
-    public enum HttpMethod
-    {
-        Delete,
-        Get,
-        Patch,
-        Post,
-        Put,
-    }
 }
