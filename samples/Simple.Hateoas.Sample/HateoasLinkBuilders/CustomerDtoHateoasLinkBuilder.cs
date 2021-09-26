@@ -18,9 +18,9 @@ namespace Simple.Hateoas.Sample.HateoasLinkBuilders
         public HateoasResult<CustomerOutputDto> Build(HateoasResult<CustomerOutputDto> hateoasResult)
         {
             hateoasResult
-               .AddSelfLink(c => new { id = c.Id }, CustomersRouterNames.GetCustomer)
-               .AddLink(c => new { id = c.Id }, CustomersRouterNames.EditCustomer, HttpMethod.Put)
-               .AddLink(c => new { id = c.Id }, CustomersRouterNames.DeleteCustomer, HttpMethod.Delete, _ => _permissionServiceMock.HasPermission(_loggedUserPermissionId));
+               .AddSelfLink(CustomersRouterNames.GetCustomer, c => new { id = c.Id })
+               .AddLink(CustomersRouterNames.EditCustomer, HttpMethod.Put, c => new { id = c.Id })
+               .AddLink(CustomersRouterNames.DeleteCustomer, HttpMethod.Delete, c => new { id = c.Id }, _ => _permissionServiceMock.HasPermission(_loggedUserPermissionId));
 
             return hateoasResult;
         }

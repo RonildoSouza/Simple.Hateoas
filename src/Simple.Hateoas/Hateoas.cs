@@ -36,7 +36,7 @@ namespace Simple.Hateoas
             var constructors = hateoasLinkBuilderType.GetConstructors();
 
             if (constructors?.Length > 1)
-                throw new ArgumentNullException($"{hateoasLinkBuilderType.Name} has more than 1 constructor!");
+                throw new NotSupportedException($"{hateoasLinkBuilderType.Name} has more than 1 constructor!");
 
             var parameters = constructors.Single().GetParameters();
 

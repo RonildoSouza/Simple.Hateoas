@@ -18,7 +18,7 @@ namespace Simple.Hateoas.Models
         public TData Data { get; }
         public IReadOnlyList<HateoasLink> Links => _links;
 
-        public HateoasResult<TData> AddLink(Func<TData, object> routeDataFunction, string routeName, string rel, HttpMethod httpMethod, Func<TData, bool> whenPredicate = null)
+        public HateoasResult<TData> AddLink(string routeName, string rel, HttpMethod httpMethod, Func<TData, object> routeDataFunction, Func<TData, bool> whenPredicate = null)
         {
             _links.Add(new HateoasLink(_urlHelper.Link(routeName, routeDataFunction?.Invoke(Data)), rel, httpMethod.ToString().ToUpper()));
 
@@ -28,23 +28,23 @@ namespace Simple.Hateoas.Models
             return this;
         }
 
-        public HateoasResult<TData> AddLink(Func<TData, object> routeDataFunction, string routeName, HttpMethod httpMethod, Func<TData, bool> whenPredicate = null)
-            => AddLink(routeDataFunction, routeName, routeName, httpMethod, whenPredicate);
+        public HateoasResult<TData> AddLink(string routeName, HttpMethod httpMethod, Func<TData, object> routeDataFunction, Func<TData, bool> whenPredicate = null)
+            => AddLink(routeName, routeName, httpMethod, routeDataFunction, whenPredicate);
 
         public HateoasResult<TData> AddLink(string routeName, string rel, HttpMethod httpMethod, Func<TData, bool> whenPredicate = null)
-            => AddLink(null, routeName, rel, httpMethod, whenPredicate);
+            => AddLink(routeName, rel, httpMethod, null, whenPredicate);
 
         public HateoasResult<TData> AddLink(string routeName, HttpMethod httpMethod, Func<TData, bool> whenPredicate = null)
-            => AddLink(null, routeName, routeName, httpMethod, whenPredicate);
+            => AddLink(routeName, routeName, httpMethod, null, whenPredicate);
 
-        public HateoasResult<TData> AddSelfLink(Func<TData, object> routeDataFunction, string routeName, Func<TData, bool> whenPredicate = null)
-            => AddLink(routeDataFunction, routeName, "self", HttpMethod.Get, whenPredicate);
+        public HateoasResult<TData> AddSelfLink(string routeName, Func<TData, object> routeDataFunction, Func<TData, bool> whenPredicate = null)
+            => AddLink(routeName, "self", HttpMethod.Get, routeDataFunction, whenPredicate);
 
-        public HateoasResult<TData> AddNextLink(Func<TData, object> routeDataFunction, string routeName, Func<TData, bool> whenPredicate = null)
-            => AddLink(routeDataFunction, routeName, "next", HttpMethod.Get, whenPredicate);
+        public HateoasResult<TData> AddNextLink(string routeName, Func<TData, object> routeDataFunction, Func<TData, bool> whenPredicate = null)
+            => AddLink(routeName, "next", HttpMethod.Get, routeDataFunction, whenPredicate);
 
-        public HateoasResult<TData> AddPrevLink(Func<TData, object> routeDataFunction, string routeName, Func<TData, bool> whenPredicate = null)
-            => AddLink(routeDataFunction, routeName, "prev", HttpMethod.Get, whenPredicate);
+        public HateoasResult<TData> AddPrevLink(string routeName, Func<TData, object> routeDataFunction, Func<TData, bool> whenPredicate = null)
+            => AddLink(routeName, "prev", HttpMethod.Get, routeDataFunction, whenPredicate);
 
         public void Dispose()
         {

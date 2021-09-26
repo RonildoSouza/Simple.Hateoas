@@ -129,7 +129,7 @@ namespace Simple.Hateoas.Tests
         public HateoasResult<CustomerMockDto> Build(HateoasResult<CustomerMockDto> hateoasResult)
         {
             hateoasResult
-                .AddSelfLink(_ => new { id = _.Id }, RouteName1)
+                .AddSelfLink(RouteName1, _ => new { id = _.Id })
                 .AddLink(RouteName2, HttpMethod.Patch)
                 .AddLink(RouteName3, HttpMethod.Delete, _ => _.Id == 2);
 

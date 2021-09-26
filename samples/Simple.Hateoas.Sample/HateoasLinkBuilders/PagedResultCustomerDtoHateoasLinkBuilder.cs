@@ -9,8 +9,8 @@ namespace Simple.Hateoas.Sample.HateoasLinkBuilders
         {
             hateoasResult
                .AddLink(CustomersRouterNames.CreateCustomer, HttpMethod.Post)
-               .AddNextLink(p => new { page = p.CurrentPage + 1, pageSize = p.PageSize }, CustomersRouterNames.GetCustomers, _ => _.CurrentPage < _.PageCount)
-               .AddPrevLink(p => new { page = p.CurrentPage - 1, pageSize = p.PageSize }, CustomersRouterNames.GetCustomers, _ => _.CurrentPage > 1);
+               .AddNextLink(CustomersRouterNames.GetCustomers, p => new { page = p.CurrentPage + 1, pageSize = p.PageSize }, _ => _.CurrentPage < _.PageCount)
+               .AddPrevLink(CustomersRouterNames.GetCustomers, p => new { page = p.CurrentPage - 1, pageSize = p.PageSize }, _ => _.CurrentPage > 1);
 
             return hateoasResult;
         }
