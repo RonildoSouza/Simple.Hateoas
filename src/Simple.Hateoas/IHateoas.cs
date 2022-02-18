@@ -4,6 +4,6 @@ namespace Simple.Hateoas
 {
     public interface IHateoas
     {
-        HateoasResult<TData> Create<TData>(TData data);
+        HateoasResult<TData> Create<TData>(TData data, params object[] args);
     }
 }

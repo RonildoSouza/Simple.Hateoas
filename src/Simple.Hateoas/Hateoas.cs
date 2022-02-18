@@ -19,14 +19,14 @@ namespace Simple.Hateoas
             _serviceProvider = serviceProvider;
         }
 
-        public HateoasResult<TData> Create<TData>(TData data)
+        public HateoasResult<TData> Create<TData>(TData data, params object[] args)
         {
             if (data == null)
                 throw new ArgumentNullException(nameof(data));
 
             var hateoasLinkBuilderType = _hateoasBuilderContext.GetHateoasLinkBuilderType(typeof(IHateoasLinkBuilder<TData>));
             var hateoasLinkBuilder = CreateInstanceHateoasLinkBuilder<TData>(hateoasLinkBuilderType);
-            var hateoasResult = Activator.CreateInstance(typeof(HateoasResult<TData>), _urlHelper, data) as HateoasResult<TData>;
+            var hateoasResult = Activator.CreateInstance(typeof(HateoasResult<TData>), _urlHelper, data, args) as HateoasResult<TData>;
 
             return hateoasLinkBuilder.Build(hateoasResult);
         }

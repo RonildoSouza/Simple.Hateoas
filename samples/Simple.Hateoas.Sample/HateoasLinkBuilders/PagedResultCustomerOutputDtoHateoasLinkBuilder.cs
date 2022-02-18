@@ -3,7 +3,7 @@ using Simple.Hateoas.Sample.Dtos;
 
 namespace Simple.Hateoas.Sample.HateoasLinkBuilders
 {
-    public class PagedResultCustomerDtoHateoasLinkBuilder : IHateoasLinkBuilder<PagedResult<CustomerOutputDto>>
+    public class PagedResultCustomerOutputDtoHateoasLinkBuilder : IHateoasLinkBuilder<PagedResult<CustomerOutputDto>>
     {
         public HateoasResult<PagedResult<CustomerOutputDto>> Build(HateoasResult<PagedResult<CustomerOutputDto>> hateoasResult)
         {

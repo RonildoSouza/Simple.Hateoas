@@ -5,12 +5,12 @@ using System;
 
 namespace Simple.Hateoas.Sample.HateoasLinkBuilders
 {
-    public class CustomerDtoHateoasLinkBuilder : IHateoasLinkBuilder<CustomerOutputDto>
+    public class CustomerOutputDtoHateoasLinkBuilder : IHateoasLinkBuilder<CustomerOutputDto>
     {
         private readonly int _loggedUserPermissionId = new Random().Next(2);
         private readonly IPermissionServiceMock _permissionServiceMock;
 
-        public CustomerDtoHateoasLinkBuilder(IPermissionServiceMock permissionServiceMock)
+        public CustomerOutputDtoHateoasLinkBuilder(IPermissionServiceMock permissionServiceMock)
         {
             _permissionServiceMock = permissionServiceMock;
         }
@@ -19,6 +19,7 @@ namespace Simple.Hateoas.Sample.HateoasLinkBuilders
         {
             hateoasResult
                .AddSelfLink(CustomersRouterNames.GetCustomer, c => new { id = c.Id })
+               .AddLink(CustomersRouterNames.GetCustomerPhones, HttpMethod.Get, c => new { id = c.Id })
                .AddLink(CustomersRouterNames.EditCustomer, HttpMethod.Put, c => new { id = c.Id })
                .AddLink(CustomersRouterNames.DeleteCustomer, HttpMethod.Delete, c => new { id = c.Id }, _ => _permissionServiceMock.HasPermission(_loggedUserPermissionId));
 

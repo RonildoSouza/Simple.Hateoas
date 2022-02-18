@@ -39,7 +39,7 @@ namespace Simple.Hateoas.Sample.Controllers
 
             pagedResult.Results = _customers.Skip(skip).Take(pageSize);
 
-            return page <= pageCount ? Ok(_hateoas.Create(pagedResult)) : NotFound();
+            return Ok(_hateoas.Create(pagedResult));
         }
 
         [HttpGet("{id}", Name = CustomersRouterNames.GetCustomer)]
@@ -85,6 +85,30 @@ namespace Simple.Hateoas.Sample.Controllers
         {
             _customers.RemoveAll(_ => _.Id == id);
             return Ok();
+        }
+
+        [HttpGet("{id}/phones", Name = CustomersRouterNames.GetCustomerPhones)]
+        [ProducesResponseType(typeof(PagedResult<CustomerPhoneOutputDto>), (int)HttpStatusCode.OK)]
+        public IActionResult GetCustomerPhones(int id, [FromQuery] int page = 1, [FromQuery] int pageSize = 10)
+        {
+            var customerPhones = CustomerPhoneOutputDto.GetAll(id).ToList();
+
+            var pagedResult = new PagedResult<CustomerPhoneOutputDto>
+            {
+                CurrentPage = page,
+                PageSize = pageSize,
+            };
+
+            pagedResult.RowCount = customerPhones.Count();
+
+            var pageCount = (double)pagedResult.RowCount / pageSize;
+            pagedResult.PageCount = (int)Math.Ceiling(pageCount);
+
+            var skip = (page - 1) * pageSize;
+
+            pagedResult.Results = customerPhones.Skip(skip).Take(pageSize);
+
+            return Ok(_hateoas.Create(pagedResult, id));
         }
     }
 }

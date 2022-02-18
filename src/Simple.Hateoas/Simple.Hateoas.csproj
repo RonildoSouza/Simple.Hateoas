@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
     <Authors>Ronildo Souza</Authors>
-    <Version>1.0.1-beta.1</Version>
+    <Version>1.0.1-beta.2</Version>
     <PackageOutputPath>../../nugets</PackageOutputPath>
     <RepositoryUrl>https://github.com/RonildoSouza/Simple.Hateoas</RepositoryUrl>
     <PackageProjectUrl>https://github.com/RonildoSouza/Simple.Hateoas</PackageProjectUrl>

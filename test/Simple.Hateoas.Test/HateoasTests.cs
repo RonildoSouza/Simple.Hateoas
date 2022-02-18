@@ -73,7 +73,6 @@ namespace Simple.Hateoas.Tests
             try
             {
                 hateoas.Create(new List<CustomerMockDto> { new CustomerMockDto(0) });
-
             }
             catch (Exception)
             {
@@ -106,6 +105,21 @@ namespace Simple.Hateoas.Tests
             Assert.NotNull(hateoasResult);
             Assert.NotEmpty(hateoasResult.Links);
             Assert.Contains("anything_route_name", hateoasResult.Links.Select(_ => _.Rel));
+        }
+
+        [Fact(DisplayName = "Should create hateoas result with args")]
+        [Trait("Public", "Hateoas Tests")]
+        public void Hateoas_CreateHateoasResult_ShouldCreateWithArgs()
+        {
+            // Arrange     
+            var hateoas = _mocker.CreateInstance<Hateoas>();
+
+            // Act
+            var hateoasResult = hateoas.Create(new CustomerMockDto(2), "Arg01", "Arg02");
+
+            // Assert
+            Assert.NotNull(hateoasResult);
+            Assert.Equal(2, hateoasResult.GetTotalArgs());
         }
     }
 

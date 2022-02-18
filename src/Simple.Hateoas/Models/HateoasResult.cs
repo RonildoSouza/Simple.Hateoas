@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Simple.Hateoas.Models
 {
@@ -8,11 +9,13 @@ namespace Simple.Hateoas.Models
     {
         private readonly List<HateoasLink> _links = new List<HateoasLink>();
         private readonly IUrlHelper _urlHelper;
+        private readonly object[] _args;
 
-        public HateoasResult(IUrlHelper urlHelper, TData data)
+        public HateoasResult(IUrlHelper urlHelper, TData data, params object[] args)
         {
             _urlHelper = urlHelper;
             Data = data;
+            _args = args;
         }
 
         public TData Data { get; }
@@ -45,6 +48,16 @@ namespace Simple.Hateoas.Models
 
         public HateoasResult<TData> AddPrevLink(string routeName, Func<TData, object> routeDataFunction, Func<TData, bool> whenPredicate = null)
             => AddLink(routeName, "prev", HttpMethod.Get, routeDataFunction, whenPredicate);
+
+        public int GetTotalArgs() => _args?.Length ?? 0;
+
+        public object GetArg(int index)
+        {
+            if (!(_args?.Any() ?? false))
+                return null;
+
+            return _args.ElementAt(index);
+        }
 
         public void Dispose()
         {
