@@ -15,7 +15,7 @@ namespace Simple.Hateoas.Sample.HateoasLinkBuilders
             _permissionServiceMock = permissionServiceMock;
         }
 
-        public HateoasResult<CustomerOutputDto> Build(HateoasResult<CustomerOutputDto> hateoasResult)
+        public HateoasResult<CustomerOutputDto> AddLinks(HateoasResult<CustomerOutputDto> hateoasResult)
         {
             hateoasResult
                .AddSelfLink(CustomersRouterNames.GetCustomer, c => new { id = c.Id })

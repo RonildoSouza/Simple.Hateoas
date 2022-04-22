@@ -11,20 +11,37 @@ namespace Simple.Hateoas.Internal
     internal class HateoasBuilderContext : IHateoasBuilderContext
     {
         private readonly IDictionary<Type, Type> _hateoasLinkBuilder = new Dictionary<Type, Type>();
+        private IServiceProvider _serviceProvider;
 
-        internal HateoasBuilderContext(Assembly assembly)
-        {
-            Initialize(assembly);
-        }
+        internal HateoasBuilderContext(Assembly assembly) => Initialize(assembly);
 
-        public Type GetHateoasLinkBuilderType(Type key)
+        public IHateoasLinkBuilder<TData> GetHateoasLinkBuilderInstance<TData>(Type key)
         {
-            if (!_hateoasLinkBuilder.TryGetValue(key, out Type value))
+            if (!_hateoasLinkBuilder.TryGetValue(key, out Type hateoasLinkBuilderType))
                 throw new Exception($"{key.Name} not found!");
 
-            return value;
+            var constructors = hateoasLinkBuilderType.GetConstructors();
+
+            if (constructors?.Length > 1)
+                throw new NotSupportedException($"{hateoasLinkBuilderType.Name} has more than 1 constructor!");
+
+            var parameters = constructors.Single().GetParameters();
+
+            if ((constructors?.Any() ?? false) && (parameters?.Any() ?? false))
+            {
+                var objectsToInject = parameters.Select(_ => _serviceProvider.GetService(_.ParameterType)).ToArray();
+                return Activator.CreateInstance(hateoasLinkBuilderType, objectsToInject) as IHateoasLinkBuilder<TData>;
+            }
+
+            return Activator.CreateInstance(hateoasLinkBuilderType) as IHateoasLinkBuilder<TData>;
         }
 
+        public void SetServiceProvider(IServiceProvider serviceProvider) => _serviceProvider = serviceProvider;
+
+        /// <summary>
+        /// Find all classes classes that implement <see cref="IHateoasLinkBuilder{TData}"/>
+        /// </summary>
+        /// <param name="assembly">Assembly with classes that implement <see cref="IHateoasLinkBuilder{TData}"/></param>
         private void Initialize(Assembly assembly)
         {
             if (assembly == null)

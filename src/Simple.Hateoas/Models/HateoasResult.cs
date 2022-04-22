@@ -5,13 +5,17 @@ using System.Linq;
 
 namespace Simple.Hateoas.Models
 {
+    /// <summary>
+    /// Simple hateoas result structure
+    /// </summary>
+    /// <typeparam name="TData">Type from model result</typeparam>
     public class HateoasResult<TData> : IDisposable
     {
         private readonly List<HateoasLink> _links = new List<HateoasLink>();
         private readonly IUrlHelper _urlHelper;
         private readonly object[] _args;
 
-        public HateoasResult(IUrlHelper urlHelper, TData data, params object[] args)
+        internal HateoasResult(IUrlHelper urlHelper, TData data, params object[] args)
         {
             _urlHelper = urlHelper;
             Data = data;

@@ -7,7 +7,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
-using static Simple.Hateoas.Tests.IServiceRouteMock;
 
 namespace Simple.Hateoas.Tests
 {
@@ -24,8 +23,8 @@ namespace Simple.Hateoas.Tests
                 .Returns("https://mock-link.test");
 
             _mocker.GetMock<IHateoasBuilderContext>()
-                .Setup(_ => _.GetHateoasLinkBuilderType(It.IsAny<Type>()))
-                .Returns(typeof(CustomerMockDtoHateoasLinkBuilder));
+                .Setup(_ => _.GetHateoasLinkBuilderInstance<CustomerMockDto>(It.IsAny<Type>()))
+                .Returns(new CustomerMockDtoHateoasLinkBuilder());
         }
 
         [Fact(DisplayName = "Should create all links of IHateoasLinkBuilder")]
@@ -83,30 +82,6 @@ namespace Simple.Hateoas.Tests
             Assert.True(error);
         }
 
-        [Fact(DisplayName = "Should create links of IHateoasLinkBuilder with dependecy injection")]
-        [Trait("Public", "Hateoas Tests")]
-        public void Hateoas_CreateHateoasResult_ShouldCreateLinksWithDI()
-        {
-            // Arrange
-            _mocker.GetMock<IHateoasBuilderContext>()
-                .Setup(_ => _.GetHateoasLinkBuilderType(It.IsAny<Type>()))
-                .Returns(typeof(DependencyInjectionHateoasLinkBuilder));
-
-            _mocker.GetMock<IServiceProvider>()
-                .Setup(_ => _.GetService(typeof(IServiceRouteMock)))
-                .Returns(new ServiceRouteMock());
-
-            var hateoas = _mocker.CreateInstance<Hateoas>();
-
-            // Act
-            var hateoasResult = hateoas.Create(new CustomerMockDto(2));
-
-            // Assert
-            Assert.NotNull(hateoasResult);
-            Assert.NotEmpty(hateoasResult.Links);
-            Assert.Contains("anything_route_name", hateoasResult.Links.Select(_ => _.Rel));
-        }
-
         [Fact(DisplayName = "Should create hateoas result with args")]
         [Trait("Public", "Hateoas Tests")]
         public void Hateoas_CreateHateoasResult_ShouldCreateWithArgs()
@@ -140,40 +115,13 @@ namespace Simple.Hateoas.Tests
         public const string RouteName2 = "mock-route-name-2";
         public const string RouteName3 = "mock-route-name-3";
 
-        public HateoasResult<CustomerMockDto> Build(HateoasResult<CustomerMockDto> hateoasResult)
+        public HateoasResult<CustomerMockDto> AddLinks(HateoasResult<CustomerMockDto> hateoasResult)
         {
             hateoasResult
                 .AddSelfLink(RouteName1, _ => new { id = _.Id })
                 .AddLink(RouteName2, HttpMethod.Patch)
                 .AddLink(RouteName3, HttpMethod.Delete, _ => _.Id == 2);
 
-            return hateoasResult;
-        }
-    }
-
-
-    public interface IServiceRouteMock
-    {
-        string GetRouteName();
-
-        public class ServiceRouteMock : IServiceRouteMock
-        {
-            public string GetRouteName() => "anything_route_name";
-        }
-    }
-
-    public class DependencyInjectionHateoasLinkBuilder : IHateoasLinkBuilder<CustomerMockDto>
-    {
-        private readonly IServiceRouteMock _serviceMock;
-
-        public DependencyInjectionHateoasLinkBuilder(IServiceRouteMock serviceMock)
-        {
-            _serviceMock = serviceMock;
-        }
-
-        public HateoasResult<CustomerMockDto> Build(HateoasResult<CustomerMockDto> hateoasResult)
-        {
-            hateoasResult.AddLink(_serviceMock.GetRouteName(), HttpMethod.Delete);
             return hateoasResult;
         }
     }

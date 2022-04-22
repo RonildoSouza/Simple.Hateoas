@@ -4,6 +4,7 @@ namespace Simple.Hateoas.Internal
 {
     public interface IHateoasBuilderContext
     {
-        Type GetHateoasLinkBuilderType(Type key);
+        IHateoasLinkBuilder<TData> GetHateoasLinkBuilderInstance<TData>(Type hateoasLinkBuilderType);
+        void SetServiceProvider(IServiceProvider serviceProvider);
     }
 }

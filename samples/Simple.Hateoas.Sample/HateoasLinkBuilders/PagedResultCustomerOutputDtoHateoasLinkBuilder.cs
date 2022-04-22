@@ -5,7 +5,7 @@ namespace Simple.Hateoas.Sample.HateoasLinkBuilders
 {
     public class PagedResultCustomerOutputDtoHateoasLinkBuilder : IHateoasLinkBuilder<PagedResult<CustomerOutputDto>>
     {
-        public HateoasResult<PagedResult<CustomerOutputDto>> Build(HateoasResult<PagedResult<CustomerOutputDto>> hateoasResult)
+        public HateoasResult<PagedResult<CustomerOutputDto>> AddLinks(HateoasResult<PagedResult<CustomerOutputDto>> hateoasResult)
         {
             hateoasResult
                .AddLink(CustomersRouterNames.CreateCustomer, HttpMethod.Post)

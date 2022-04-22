@@ -5,7 +5,7 @@ namespace Simple.Hateoas.Sample.HateoasLinkBuilders
 {
     public class PagedResultCustomerPhoneOutputDtoHateoasLinkBuilder : IHateoasLinkBuilder<PagedResult<CustomerPhoneOutputDto>>
     {
-        public HateoasResult<PagedResult<CustomerPhoneOutputDto>> Build(HateoasResult<PagedResult<CustomerPhoneOutputDto>> hateoasResult)
+        public HateoasResult<PagedResult<CustomerPhoneOutputDto>> AddLinks(HateoasResult<PagedResult<CustomerPhoneOutputDto>> hateoasResult)
         {
             var customerId = hateoasResult.GetArg(0);
 

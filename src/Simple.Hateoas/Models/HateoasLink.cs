@@ -1,8 +1,11 @@
 ﻿namespace Simple.Hateoas.Models
 {
+    /// <summary>
+    /// Simple hateoas result links
+    /// </summary>
     public sealed class HateoasLink
     {
-        public HateoasLink(string href, string rel, string method)
+        internal HateoasLink(string href, string rel, string method)
         {
             Href = href;
             Rel = rel;
