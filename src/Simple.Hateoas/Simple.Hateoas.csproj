@@ -3,17 +3,27 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
     <Authors>Ronildo Souza</Authors>
-    <Version>1.1.0</Version>
+    <Version>1.1.1</Version>
     <PackageOutputPath>../../nugets</PackageOutputPath>
     <RepositoryUrl>https://github.com/RonildoSouza/Simple.Hateoas</RepositoryUrl>
     <PackageProjectUrl>https://github.com/RonildoSouza/Simple.Hateoas</PackageProjectUrl>
     <PackageTags>hateoas</PackageTags>
     <Description>https://raw.githubusercontent.com/RonildoSouza/Simple.Hateoas/master/README.md</Description>
+    <PackageIcon>simple_hateoas.png</PackageIcon>
+    <PackageIconUrl />
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
