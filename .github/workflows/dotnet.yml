@@ -8,7 +8,6 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -16,7 +15,7 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v3.0.3
       with:
-        dotnet-version: 5.0.x
+        dotnet-version: 8.0.x
         
     - name: Restore dependencies
       run: dotnet restore src/Simple.Hateoas.sln
@@ -26,29 +25,20 @@ jobs:
       
     - name: Test
       run: dotnet test --no-build --verbosity normal src/Simple.Hateoas.sln
-      
-    - name: Publish NuGet
-      # You may pin to the exact commit or the version.
-      # uses: brandedoutcast/publish-nuget@c12b8546b67672ee38ac87bea491ac94a587f7cc
-      uses: brandedoutcast/publish-nuget@v2.5.5
+
+  publish:
+    needs: [build]
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3.0.3
       with:
-        # Filepath of the project to be packaged, relative to root of repository
-        PROJECT_FILE_PATH: src/Simple.Hateoas/Simple.Hateoas.csproj
-        # NuGet package id, used for version detection & defaults to project name
-        #PACKAGE_NAME: Simple.Hateoas
-        # Filepath with version info, relative to root of repository & defaults to PROJECT_FILE_PATH
-        #VERSION_FILE_PATH: # optional
-        # Regex pattern to extract version info in a capturing group
-        #VERSION_REGEX: # optional, default is ^\s*<Version>(.*)<\/Version>\s*$
-        # Useful with external providers like Nerdbank.GitVersioning, ignores VERSION_FILE_PATH & VERSION_REGEX
-        #VERSION_STATIC: # optional
-        # Flag to toggle git tagging, enabled by default
-        #TAG_COMMIT: # optional, default is true
-        # Format of the git tag, [*] gets replaced with actual version
-        #TAG_FORMAT: # optional, default is v*
-        # API key to authenticate with NuGet server
-        NUGET_KEY: ${{secrets.SIMPLEHATEOAS_TOKEN}}
-        # NuGet server uri hosting the packages, defaults to https://api.nuget.org
-        #NUGET_SOURCE: # optional, default is https://api.nuget.org
-        # Flag to toggle pushing symbols along with nuget package to the server, disabled by default
-        #INCLUDE_SYMBOLS: # optional
+        dotnet-version: 8.x
+        
+    - name: Pack
+      run: dotnet pack src/Simple.Hateoas/Simple.Hateoas.csproj -c Release
+
+    - name: Publish
+      run: dotnet nuget push D:\a\Simple.Hateoas\Simple.Hateoas\nupkgs\Simple.Hateoas.*.nupkg --api-key ${{secrets.SIMPLEHATEOAS_TOKEN}} --source https://api.nuget.org/v3/index.json --skip-duplicate --no-symbols
