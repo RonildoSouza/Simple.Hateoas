@@ -1,4 +1,4 @@
-﻿namespace Simple.Hateoas.Sample.Services
+﻿namespace Simple.Hateoas.Sample.Core.Services
 {
     public interface IPermissionServiceMock
     {

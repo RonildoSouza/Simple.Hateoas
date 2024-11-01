@@ -1,9 +1,9 @@
 ﻿using Simple.Hateoas.Models;
-using Simple.Hateoas.Sample.Dtos;
-using Simple.Hateoas.Sample.Services;
+using Simple.Hateoas.Sample.Core.Dtos;
+using Simple.Hateoas.Sample.Core.Services;
 using System;
 
-namespace Simple.Hateoas.Sample.HateoasLinkBuilders
+namespace Simple.Hateoas.Sample.Core.HateoasLinkBuilders
 {
     public class CustomerOutputDtoHateoasLinkBuilder : IHateoasLinkBuilder<CustomerOutputDto>
     {

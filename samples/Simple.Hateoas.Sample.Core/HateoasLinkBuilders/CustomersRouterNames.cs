@@ -1,4 +1,4 @@
-﻿namespace Simple.Hateoas.Sample.HateoasLinkBuilders
+﻿namespace Simple.Hateoas.Sample.Core.HateoasLinkBuilders
 {
     public static class CustomersRouterNames
     {

@@ -4,7 +4,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using Simple.Hateoas.Sample.Services;
+using Simple.Hateoas.Sample.Core.Services;
+using System.Reflection;
 
 namespace Simple.Hateoas.Sample
 {
@@ -27,8 +28,7 @@ namespace Simple.Hateoas.Sample
             });
             services.AddRouting(c => c.LowercaseUrls = true);
 
-            services.AddSimpleHateoas();
-
+            services.AddSimpleHateoas(Assembly.GetAssembly(typeof(IPermissionServiceMock)));
             services.AddScoped<IPermissionServiceMock, PermissionServiceMock>();
         }
 

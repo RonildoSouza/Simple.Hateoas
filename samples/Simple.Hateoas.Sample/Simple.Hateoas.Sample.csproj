@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Simple.Hateoas\Simple.Hateoas.csproj" />
+    <ProjectReference Include="..\Simple.Hateoas.Sample.Core\Simple.Hateoas.Sample.Core.csproj" />
   </ItemGroup>
 
 </Project>

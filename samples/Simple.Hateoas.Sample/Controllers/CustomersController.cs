@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Simple.Hateoas.Sample.Dtos;
-using Simple.Hateoas.Sample.HateoasLinkBuilders;
+using Simple.Hateoas.Models;
+using Simple.Hateoas.Sample.Core.Dtos;
+using Simple.Hateoas.Sample.Core.HateoasLinkBuilders;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +22,7 @@ namespace Simple.Hateoas.Sample.Controllers
         }
 
         [HttpGet(Name = CustomersRouterNames.GetCustomers)]
-        [ProducesResponseType(typeof(PagedResult<CustomerOutputDto>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(HateoasResult<PagedResult<CustomerOutputDto>>), (int)HttpStatusCode.OK)]
         public IActionResult Get([FromQuery] int page = 1, [FromQuery] int pageSize = 10)
         {
             var pagedResult = new PagedResult<CustomerOutputDto>
@@ -43,7 +44,7 @@ namespace Simple.Hateoas.Sample.Controllers
         }
 
         [HttpGet("{id}", Name = CustomersRouterNames.GetCustomer)]
-        [ProducesResponseType(typeof(CustomerOutputDto), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(HateoasResult<CustomerOutputDto>), (int)HttpStatusCode.OK)]
         public IActionResult Get(int id)
         {
             var customerOutputDto = _customers.FirstOrDefault(_ => _.Id == id);
@@ -51,7 +52,7 @@ namespace Simple.Hateoas.Sample.Controllers
         }
 
         [HttpPost(Name = CustomersRouterNames.CreateCustomer)]
-        [ProducesResponseType(typeof(CustomerOutputDto), (int)HttpStatusCode.Created)]
+        [ProducesResponseType(typeof(HateoasResult<CustomerOutputDto>), (int)HttpStatusCode.Created)]
         public IActionResult Post(CustomerInputDto dto)
         {
             var customerOutputDto = new CustomerOutputDto
@@ -66,7 +67,7 @@ namespace Simple.Hateoas.Sample.Controllers
         }
 
         [HttpPut("{id}", Name = CustomersRouterNames.EditCustomer)]
-        [ProducesResponseType(typeof(CustomerOutputDto), (int)HttpStatusCode.Created)]
+        [ProducesResponseType(typeof(HateoasResult<CustomerOutputDto>), (int)HttpStatusCode.OK)]
         public IActionResult Put(int id, CustomerInputDto dto)
         {
             var index = _customers.FindIndex(_ => _.Id == id);
@@ -88,7 +89,7 @@ namespace Simple.Hateoas.Sample.Controllers
         }
 
         [HttpGet("{id}/phones", Name = CustomersRouterNames.GetCustomerPhones)]
-        [ProducesResponseType(typeof(PagedResult<CustomerPhoneOutputDto>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(HateoasResult<PagedResult<CustomerPhoneOutputDto>>), (int)HttpStatusCode.OK)]
         public IActionResult GetCustomerPhones(int id, [FromQuery] int page = 1, [FromQuery] int pageSize = 10)
         {
             var customerPhones = CustomerPhoneOutputDto.GetAll(id).ToList();

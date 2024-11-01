@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Simple.Hateoas.Sample.Dtos
+namespace Simple.Hateoas.Sample.Core.Dtos
 {
     public class CustomerPhoneOutputDto
     {

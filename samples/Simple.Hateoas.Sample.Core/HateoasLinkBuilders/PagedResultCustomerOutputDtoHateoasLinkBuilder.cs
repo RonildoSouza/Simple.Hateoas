@@ -1,7 +1,7 @@
 ﻿using Simple.Hateoas.Models;
-using Simple.Hateoas.Sample.Dtos;
+using Simple.Hateoas.Sample.Core.Dtos;
 
-namespace Simple.Hateoas.Sample.HateoasLinkBuilders
+namespace Simple.Hateoas.Sample.Core.HateoasLinkBuilders
 {
     public class PagedResultCustomerOutputDtoHateoasLinkBuilder : IHateoasLinkBuilder<PagedResult<CustomerOutputDto>>
     {

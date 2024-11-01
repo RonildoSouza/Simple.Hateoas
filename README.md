@@ -5,14 +5,14 @@ A simple implementation of HATEOAS for ASP.NET Core Web API to apply semantic li
 
 
 ## Using Instructions
-### *See samples for more details about using: https://github.com/RonildoSouza/Simple.Hateoas/tree/master/samples/Simple.Hateoas.Sample*
+### *See samples for more details about using: https://github.com/RonildoSouza/Simple.Hateoas/tree/master/samples*
 
 ### **1 - Install Simple.Hateoas**
 ```
-dotnet add package Simple.Hateoas --version 1.1.2 
+dotnet add package Simple.Hateoas --version 2.0.0 
 ```
 
-### **2 - Add in Startup class**
+### **2 - Register Simple.Hateoas**
 ```csharp
 public class Startup
 {
@@ -24,6 +24,15 @@ public class Startup
     }
     // ...
 }
+```
+
+### OR (Minimal API)
+```csharp
+/// Program.cs
+
+// ...
+builder.Services.AddSimpleHateoas();
+// ...
 ```
 
 ### **3 - Create your Hateoas Link Builder class**
@@ -54,7 +63,7 @@ namespace YourProject.HateoasLinkBuilders
 }
 ```
 
-### **4 - Create and return your Hateoas Result in controller**
+### **4 - Create and return your Hateoas Result**
 ```csharp
 using Microsoft.AspNetCore.Mvc;
 using YourProject.Dtos;
@@ -76,7 +85,7 @@ namespace YourProject.Controllers
         }
 
         [HttpGet("{id}", Name = "GetEntity")]
-        [ProducesResponseType(typeof(EntityDto), 200)]
+        [ProducesResponseType(typeof(HateoasResult<EntityDto>), (int)HttpStatusCode.OK)]
         public IActionResult Get(Guid id)
         {
             var entityDto = _entityAppServiceMock.GetById(id);
@@ -86,7 +95,7 @@ namespace YourProject.Controllers
         }        
 
         [HttpDelete("{id}", Name = "DeleteEntity")]
-        [ProducesResponseType(200)]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
         public IActionResult Delete(Guid id)
         {
             _entityAppServiceMock.RemoveById(id);
@@ -94,4 +103,29 @@ namespace YourProject.Controllers
         }
     }
 }
+```
+
+### OR (Minimal API)
+```csharp
+app.MapGet("/{id}", (
+    [FromServices] IHateoas hateoas,
+    [FromRoute] inGuidt id) =>
+{
+    var entityDto = _entityAppServiceMock.GetById(id);
+    var hateoasResult = hateoas.Create(entityDto);
+
+    return Results.Ok(hateoasResult);
+})
+.WithName("GetEntity")
+.Produces<HateoasResult<EntityDto>>(StatusCodes.Status200OK)
+.WithOpenApi();
+
+app.MapDelete("/{id}", ([FromRoute] Guid id) =>
+{
+    _entityAppServiceMock.RemoveById(id);
+    return Results.Ok();
+})
+.WithName("DeleteEntity")
+.Produces(StatusCodes.Status200OK)
+.WithOpenApi();
 ```
