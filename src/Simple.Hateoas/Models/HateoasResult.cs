@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Routing;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,12 +13,14 @@ namespace Simple.Hateoas.Models
     public class HateoasResult<TData> : IDisposable
     {
         private readonly List<HateoasLink> _links = new List<HateoasLink>();
-        private readonly IUrlHelper _urlHelper;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly LinkGenerator _linkGenerator;
         private readonly object[] _args;
 
-        internal HateoasResult(IUrlHelper urlHelper, TData data, params object[] args)
+        internal HateoasResult(IHttpContextAccessor httpContextAccessor, LinkGenerator linkGenerator, TData data, params object[] args)
         {
-            _urlHelper = urlHelper;
+            _httpContextAccessor = httpContextAccessor;
+            _linkGenerator = linkGenerator;
             Data = data;
             _args = args;
         }
@@ -27,7 +30,10 @@ namespace Simple.Hateoas.Models
 
         public HateoasResult<TData> AddLink(string routeName, string rel, HttpMethod httpMethod, Func<TData, object> routeDataFunction, Func<TData, bool> whenPredicate = null)
         {
-            _links.Add(new HateoasLink(_urlHelper.Link(routeName, routeDataFunction?.Invoke(Data)), rel, httpMethod.ToString().ToUpper()));
+            _links.Add(new HateoasLink(
+                href: _linkGenerator.GetUriByName(_httpContextAccessor.HttpContext, routeName, routeDataFunction?.Invoke(Data)),
+                rel: rel,
+                method: httpMethod.ToString().ToUpper()));
 
             if (whenPredicate != null)
                 _links.RemoveAll(_ => _.Rel == rel && !whenPredicate.Invoke(Data));

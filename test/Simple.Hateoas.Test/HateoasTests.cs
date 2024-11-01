@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Routing;
 using Moq;
 using Moq.AutoMock;
 using Simple.Hateoas.Internal;
@@ -18,9 +19,11 @@ namespace Simple.Hateoas.Tests
         {
             _mocker = new AutoMocker();
 
-            _mocker.GetMock<IUrlHelper>()
-                .Setup(_ => _.Link(It.IsAny<string>(), It.IsAny<object>()))
-                .Returns("https://mock-link.test");
+            _mocker.GetMock<IHttpContextAccessor>()
+                .Setup(_ => _.HttpContext)
+                .Returns(_mocker.GetMock<HttpContext>().Object);
+
+            _mocker.GetMock<LinkGenerator>();
 
             _mocker.GetMock<IHateoasBuilderContext>()
                 .Setup(_ => _.GetHateoasLinkBuilderInstance<CustomerMockDto>(It.IsAny<Type>()))

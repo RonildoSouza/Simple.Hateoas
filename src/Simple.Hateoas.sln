@@ -1,13 +1,19 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31019.35
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35208.52
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Simple.Hateoas", "Simple.Hateoas\Simple.Hateoas.csproj", "{7FC118D2-315C-47AF-B78E-4436B3405F1D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Simple.Hateoas.Sample", "..\samples\Simple.Hateoas.Sample\Simple.Hateoas.Sample.csproj", "{0BEAD0EA-F65B-4B8A-B408-08938869CCA9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.Hateoas.Test", "..\test\Simple.Hateoas.Test\Simple.Hateoas.Test.csproj", "{00F1F5C7-3337-4DBB-99A2-847DC734785E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Simple.Hateoas.Test", "..\test\Simple.Hateoas.Test\Simple.Hateoas.Test.csproj", "{00F1F5C7-3337-4DBB-99A2-847DC734785E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{28F818D9-34DD-4F34-9AE2-FDE519FA2220}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.Hateoas.Sample.Core", "..\samples\Simple.Hateoas.Sample.Core\Simple.Hateoas.Sample.Core.csproj", "{64465AE9-C64A-428B-93FB-5068C221BDDE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.Hateoas.Sample.MinimalAPI", "..\samples\Simple.Hateoas.Sample.MinimalAPI\Simple.Hateoas.Sample.MinimalAPI.csproj", "{E9BAA7C4-5A2C-4339-A374-AB804295736C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,9 +33,22 @@ Global
 		{00F1F5C7-3337-4DBB-99A2-847DC734785E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{00F1F5C7-3337-4DBB-99A2-847DC734785E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{00F1F5C7-3337-4DBB-99A2-847DC734785E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{64465AE9-C64A-428B-93FB-5068C221BDDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64465AE9-C64A-428B-93FB-5068C221BDDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64465AE9-C64A-428B-93FB-5068C221BDDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64465AE9-C64A-428B-93FB-5068C221BDDE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E9BAA7C4-5A2C-4339-A374-AB804295736C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E9BAA7C4-5A2C-4339-A374-AB804295736C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E9BAA7C4-5A2C-4339-A374-AB804295736C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E9BAA7C4-5A2C-4339-A374-AB804295736C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{0BEAD0EA-F65B-4B8A-B408-08938869CCA9} = {28F818D9-34DD-4F34-9AE2-FDE519FA2220}
+		{64465AE9-C64A-428B-93FB-5068C221BDDE} = {28F818D9-34DD-4F34-9AE2-FDE519FA2220}
+		{E9BAA7C4-5A2C-4339-A374-AB804295736C} = {28F818D9-34DD-4F34-9AE2-FDE519FA2220}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3BCFE5F8-96E8-43CB-B911-C8CFFAA63326}

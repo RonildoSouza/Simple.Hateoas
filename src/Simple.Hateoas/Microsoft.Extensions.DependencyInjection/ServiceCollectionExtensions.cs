@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.Infrastructure;
-using Microsoft.AspNetCore.Mvc.Routing;
-using Simple.Hateoas;
+﻿using Simple.Hateoas;
 using Simple.Hateoas.Internal;
 using System.Reflection;
 
@@ -16,13 +14,8 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns>The <see cref="IServiceCollection"/> so that additional calls can be chained</returns>
         public static IServiceCollection AddSimpleHateoas(this IServiceCollection services, Assembly assembly)
         {
-            services
-                .AddSingleton<IActionContextAccessor, ActionContextAccessor>()
-                .AddScoped(x => x.GetRequiredService<IUrlHelperFactory>()
-                .GetUrlHelper(x.GetRequiredService<IActionContextAccessor>().ActionContext));
-
+            services.AddHttpContextAccessor();
             services.AddScoped(typeof(IHateoas), typeof(Hateoas));
-
             services.AddSingleton<IHateoasBuilderContext>(new HateoasBuilderContext(assembly));
 
             return services;
