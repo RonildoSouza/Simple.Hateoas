@@ -1,5 +1,5 @@
 # <a href="https://www.nuget.org/packages/Simple.Hateoas">Simple.Hateoas <img width="100px" src="https://learn.microsoft.com/pt-br/dotnet/standard/library-guidance/media/nuget/nuget-logo.png"></a>
-A simple implementation of HATEOAS for ASP.NET Core Web API to apply semantic links in models returned from your API.
+A simple implementation of HATEOAS for .NET Web API to apply semantic links in models returned from your API.
 
 [![Build, Tests and Publish](https://github.com/RonildoSouza/Simple.Hateoas/actions/workflows/dotnet.yml/badge.svg)](https://github.com/RonildoSouza/Simple.Hateoas/actions/workflows/dotnet.yml)
 
