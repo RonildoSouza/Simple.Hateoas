@@ -41,4 +41,4 @@ jobs:
       run: dotnet pack src/Simple.Hateoas/Simple.Hateoas.csproj -c Release
 
     - name: Publish
-      run: dotnet nuget push D:\a\Simple.Hateoas\Simple.Hateoas\nupkgs\Simple.Hateoas.*.nupkg --api-key ${{secrets.SIMPLEHATEOAS_TOKEN}} --source https://api.nuget.org/v3/index.json --skip-duplicate --no-symbols
+      run: dotnet nuget push /home/runner/work/Simple.Hateoas/Simple.Hateoas/nugets/Simple.Hateoas.*.nupkg --api-key ${{secrets.SIMPLEHATEOAS_TOKEN}} --source https://api.nuget.org/v3/index.json --skip-duplicate --no-symbols
