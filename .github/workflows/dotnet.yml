@@ -15,7 +15,7 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v3.0.3
       with:
-        dotnet-version: 8.0.x
+        dotnet-version: 5.0.x
         
     - name: Restore dependencies
       run: dotnet restore src/Simple.Hateoas.sln
@@ -35,7 +35,7 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v3.0.3
       with:
-        dotnet-version: 8.x
+        dotnet-version: 5.x
         
     - name: Pack
       run: dotnet pack src/Simple.Hateoas/Simple.Hateoas.csproj -c Release
