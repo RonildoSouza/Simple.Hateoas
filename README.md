@@ -109,9 +109,10 @@ namespace YourProject.Controllers
 ```csharp
 app.MapGet("/{id}", (
     [FromServices] IHateoas hateoas,
+    [FromServices] IEntityAppServiceMock entityAppServiceMock,
     [FromRoute] Guid id) =>
 {
-    var entityDto = _entityAppServiceMock.GetById(id);
+    var entityDto = entityAppServiceMock.GetById(id);
     var hateoasResult = hateoas.Create(entityDto);
 
     return Results.Ok(hateoasResult);
@@ -120,9 +121,11 @@ app.MapGet("/{id}", (
 .Produces<HateoasResult<EntityDto>>(StatusCodes.Status200OK)
 .WithOpenApi();
 
-app.MapDelete("/{id}", ([FromRoute] Guid id) =>
+app.MapDelete("/{id}", (
+    [FromServices] IEntityAppServiceMock entityAppServiceMock,
+    [FromRoute] Guid id) =>
 {
-    _entityAppServiceMock.RemoveById(id);
+    entityAppServiceMock.RemoveById(id);
     return Results.Ok();
 })
 .WithName("DeleteEntity")
