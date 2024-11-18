@@ -109,7 +109,7 @@ namespace YourProject.Controllers
 ```csharp
 app.MapGet("/{id}", (
     [FromServices] IHateoas hateoas,
-    [FromRoute] inGuidt id) =>
+    [FromRoute] Guid id) =>
 {
     var entityDto = _entityAppServiceMock.GetById(id);
     var hateoasResult = hateoas.Create(entityDto);
